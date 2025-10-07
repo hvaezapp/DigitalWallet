@@ -1,4 +1,4 @@
-﻿using DigitalWallet.Infrastracture.Persistence.Context;
+﻿using DigitalWallet.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 

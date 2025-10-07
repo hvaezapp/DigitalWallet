@@ -3,7 +3,7 @@ using DigitalWallet.Features.Transactions.Common;
 using DigitalWallet.Features.UserWallet.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace DigitalWallet.Infrastracture.Persistence.Context;
+namespace DigitalWallet.Infrastructure.Persistence.Context;
 
 public class WalletDbContext(DbContextOptions<WalletDbContext> dbContextOptions) : DbContext(dbContextOptions)
 {

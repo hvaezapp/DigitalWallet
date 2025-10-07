@@ -1,5 +1,5 @@
 ﻿using DigitalWallet.Features.MultiCurrency.Common;
-using DigitalWallet.Infrastracture.Persistence.Context;
+using DigitalWallet.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,4 +1,4 @@
-﻿namespace DigitalWallet.Infrastracture.Persistence.Context;
+﻿namespace DigitalWallet.Infrastructure.Persistence.Context;
 public static class WalletDbContextSchema
 {
     public const string DefaultSchema = "wallet";
