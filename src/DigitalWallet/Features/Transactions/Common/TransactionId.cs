@@ -2,9 +2,9 @@
 
 public record TransactionId(Guid Value)
 {
-    public static TransactionId CreateUniqueId() => new TransactionId(Guid.NewGuid());
+    public static TransactionId CreateUniqueId() => new(Guid.NewGuid());
 
-    public static TransactionId Create(Guid value) => new TransactionId(value);
+    public static TransactionId Create(Guid value) => new(value);
 
     public override string ToString()
     {

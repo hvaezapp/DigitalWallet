@@ -2,9 +2,9 @@
 
 public record WalletId(Guid Value)
 {
-    public static WalletId CreateUniqueId() => new WalletId(Guid.NewGuid());
+    public static WalletId CreateUniqueId() => new(Guid.NewGuid());
 
-    public static WalletId Create(Guid value) => new WalletId(value);
+    public static WalletId Create(Guid value) => new(value);
 
     public override string ToString()
     {

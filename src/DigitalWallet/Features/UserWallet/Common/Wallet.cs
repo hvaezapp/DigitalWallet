@@ -1,5 +1,5 @@
 ﻿using DigitalWallet.Features.MultiCurrency.Common;
-using System.Transactions;
+using DigitalWallet.Features.Transactions.Common;
 
 namespace DigitalWallet.Features.UserWallet.Common;
 
