@@ -1,22 +1,31 @@
 ﻿using DigitalWallet.Infrastructure.Persistence.Context;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace DigitalWallet.Configuration;
 
 public static class ServiceConfiguration
 {
-    public static void ConfigureDbContexts(this WebApplicationBuilder builder)
+    public static IServiceCollection ConfigureDbContexts(this IServiceCollection services, IConfiguration configuration)
     {
-        builder.Services.AddDbContext<WalletDbContext>(options =>
+        services.AddDbContext<WalletDbContext>(options =>
         {
-            options.UseSqlServer(builder.Configuration.GetConnectionString(WalletDbContextSchema.DefaultConnectionStringName));
+            options.UseSqlServer(configuration.GetConnectionString(WalletDbContextSchema.DefaultConnectionStringName));
         });
 
-        builder.Services.AddDbContext<WalletDbContextReadOnly>(options =>
+        services.AddDbContext<WalletDbContextReadOnly>(options =>
         {
-            options.UseSqlServer(builder.Configuration.GetConnectionString(WalletDbContextSchema.DefaultReadOnlyConnectionStringName))
+            options.UseSqlServer(configuration.GetConnectionString(WalletDbContextSchema.DefaultReadOnlyConnectionStringName))
                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
+
+        return services;
     }
 
+    public static IServiceCollection ConfigureValidator(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
+
+        return services;
+    }
 }
