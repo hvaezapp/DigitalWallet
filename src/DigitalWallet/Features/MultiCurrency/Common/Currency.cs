@@ -16,24 +16,20 @@ public class Currency
 
     public ICollection<Wallet> Wallets { get; private set; } = default!;
 
-    public static Currency Create(string code, string name, decimal ratio)
-        => new()
-        {
-            Id = CurrencyId.CreateUniqueId(),
-            Ratio = ratio,
-            Code = code,
-            Name = name,
-            ModifiedOnUtc = DateTime.UtcNow
-        };
 
-    public void UpdateRatio(decimal ratio)
+    public static Currency Create(string code, string name, decimal ratio)
+    => new()
     {
-        Ratio = ratio;
-        ModifiedOnUtc = DateTime.UtcNow;
-    }
+        Id = CurrencyId.CreateUniqueId(),
+        Ratio = ratio,
+        Code = code,
+        Name = name,
+        ModifiedOnUtc = DateTime.UtcNow
+    };
 
     private Currency()
     {
-        
+
     }
+
 }

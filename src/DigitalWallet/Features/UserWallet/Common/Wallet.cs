@@ -23,47 +23,5 @@ public class Wallet
 
     public ICollection<Transaction> Transactions { get; private set; } = default!;
 
-    public static Wallet Create(UserId userId, CurrencyId currencyId, string title)
-    {
-        return new Wallet
-        {
-            Id = WalletId.CreateUniqueId(),
-            UserId = userId,
-            CurrencyId = currencyId,
-            Title = title,
-            Balance = 0,
-            CreatedOnUtc = DateTime.UtcNow,
-            Status = WalletStatus.Active
-        };
-    }
-
-    internal void IncreaseBalance(decimal amount)
-    {
-        Balance += amount;
-    }
-
-    internal void DecreaseBalance(decimal amount)
-    {
-        Balance -= amount;
-    }
-
-    internal void UpdateTitle(string title)
-    {
-        Title = title;
-    }
-
-    internal void Activate()
-    {
-        Status = WalletStatus.Active;
-    }
-
-    internal void Suspend()
-    {
-        Status = WalletStatus.Suspend;
-    }
-
-    private Wallet()
-    {
-        
-    }
+  
 }
