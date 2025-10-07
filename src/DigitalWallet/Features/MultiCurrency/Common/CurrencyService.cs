@@ -27,4 +27,21 @@ public class CurrencyService(WalletDbContext dbContext)
         return currency.Id;
     }
 
+    public async Task UpdateRationAsync(CurrencyId currencyId, decimal ratio, CancellationToken cancellationToken)
+    {
+        if (ratio == 0)
+        {
+            InvalidCurrencyRatioException.Throw();
+        }
+
+        var currency = await _dbContext.Currencies.FirstOrDefaultAsync(x => x.Id == currencyId, cancellationToken);
+        if (currency is null)
+        {
+            CurrencyNotFoundException.Throw(currencyId);
+        }
+
+        currency.UpdateRatio(ratio);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
 }

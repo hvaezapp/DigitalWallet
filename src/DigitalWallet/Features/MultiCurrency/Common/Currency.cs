@@ -27,6 +27,13 @@ public class Currency
         ModifiedOnUtc = DateTime.UtcNow
     };
 
+    public void UpdateRatio(decimal ratio)
+    {
+        Ratio = ratio;
+        ModifiedOnUtc = DateTime.UtcNow;
+    }
+
+
     private Currency()
     {
 
