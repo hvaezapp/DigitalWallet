@@ -23,5 +23,23 @@ public class Wallet
 
     public ICollection<Transaction> Transactions { get; private set; } = default!;
 
-  
+    public static Wallet Create(UserId userId, CurrencyId currencyId, string title)
+    {
+        return new Wallet
+        {
+            Id = WalletId.CreateUniqueId(),
+            UserId = userId,
+            CurrencyId = currencyId,
+            Title = title,
+            Balance = 0,
+            CreatedOnUtc = DateTime.UtcNow,
+            Status = WalletStatus.Active
+        };
+    }
+
+    private Wallet()
+    {
+
+    }
+
 }
