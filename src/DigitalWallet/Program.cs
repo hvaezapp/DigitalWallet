@@ -9,6 +9,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.ConfigureDbContexts(builder.Configuration);
 builder.Services.ConfigureValidator();
+builder.Services.ConfigureSecondLevelCache();
 builder.Services.AddCarter();
 builder.Services.AddServiceDiscovery();
 
