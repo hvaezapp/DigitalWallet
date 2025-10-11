@@ -6,6 +6,7 @@ namespace DigitalWallet.Features.MultiCurrency.Common;
 
 public class CurrencyEfConfiguration : IEntityTypeConfiguration<Currency>
 {
+
     public void Configure(EntityTypeBuilder<Currency> builder)
     {
         builder.ToTable(WalletDbContextSchema.Currency.TableName);
