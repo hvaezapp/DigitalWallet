@@ -37,6 +37,11 @@ public class Wallet
         };
     }
 
+    internal void UpdateTitle(string title)
+    {
+        Title = title;
+    }
+
     internal void Activate()
     {
         Status = WalletStatus.Active;
@@ -47,10 +52,12 @@ public class Wallet
         Status = WalletStatus.Suspend;
     }
 
-    internal void UpdateTitle(string title)
+
+    internal void Banned()
     {
-        Title = title;
+        Status = WalletStatus.Banned;
     }
+
 
     private Wallet()
     {

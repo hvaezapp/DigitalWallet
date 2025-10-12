@@ -2,6 +2,6 @@
 
 public enum TransactionType
 {
-    User,
-    Funds
+    User = 0,
+    Funds = 1
 }

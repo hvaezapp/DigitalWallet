@@ -2,6 +2,6 @@
 
 public enum TransactionKind
 {
-    Incremental,
-    Decremental
+    Incremental = 0,
+    Decremental = 1
 }
