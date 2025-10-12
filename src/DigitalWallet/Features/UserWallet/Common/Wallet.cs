@@ -37,6 +37,11 @@ public class Wallet
         };
     }
 
+    internal void Activate()
+    {
+        Status = WalletStatus.Active;
+    }
+
     internal void UpdateTitle(string title)
     {
         Title = title;
