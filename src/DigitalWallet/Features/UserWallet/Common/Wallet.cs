@@ -37,6 +37,11 @@ public class Wallet
         };
     }
 
+    internal void IncreaseBalance(decimal amount)
+    {
+        Balance += amount;
+    }
+
     internal void UpdateTitle(string title)
     {
         Title = title;

@@ -20,5 +20,19 @@ public class Transaction
 
     public TransactionType Type { get; private set; }
 
-    
+
+    public static Transaction CreateIncreaseWalletBalanceTransaction(WalletId walletId, decimal amount, string description)
+    {
+        return new Transaction
+        {
+            Id = TransactionId.CreateUniqueId(),
+            WalletId = walletId,
+            Amount = amount,
+            Kind = TransactionKind.Incremental,
+            Type = TransactionType.User,
+            Description = description,
+            CreatedOnUtc = DateTime.UtcNow,
+        };
+    }
+
 }
