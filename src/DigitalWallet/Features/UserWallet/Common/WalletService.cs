@@ -73,9 +73,7 @@ public class WalletService(CurrencyService currencyService, WalletDbContext dbCo
 
     private async Task<Wallet> GetWalletAsync(WalletId walletId, CancellationToken ct)
     {
-        var wallet = await _dbContext.Wallets
-                                     .FirstOrDefaultAsync(x => x.Id == walletId, 
-                                      ct);
+        var wallet = await _dbContext.Wallets.FirstOrDefaultAsync(x => x.Id == walletId, ct);
 
         if (wallet is null)
         {
@@ -90,6 +88,19 @@ public class WalletService(CurrencyService currencyService, WalletDbContext dbCo
         var wallet = await GetWalletAsync(walletId, cancellationToken);
 
         wallet.IncreaseBalance(amount);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    internal async Task DecreaseBalanceAsync(WalletId walletId, decimal amount, CancellationToken cancellationToken)
+    {
+        var wallet = await GetWalletAsync(walletId, cancellationToken);
+
+        if (wallet.Balance - amount < 0)
+        {
+            InsufficientBalanceException.Throw();
+        }
+
+        wallet.DecreaseBalance(amount);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 

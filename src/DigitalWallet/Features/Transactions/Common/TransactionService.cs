@@ -37,4 +37,33 @@ public class TransactionService(WalletService walletService , WalletDbContext db
             await dbTransaction.RollbackAsync(ct);
         }
     }
+
+
+    internal async Task DecreaseWalletBalanceAsync(WalletId walletId, decimal amount, string description, CancellationToken ct)
+    {
+        if (!await _walletService.IsWalletAvailableAsync(walletId, ct))
+        {
+            WalletUnavailableException.Throw(walletId);
+        }
+
+        InvalidTransactionAmountException.Throw(amount);
+
+        var dbTransaction = await _dbContext.Database.BeginTransactionAsync(ct);
+
+        try
+        {
+            await _walletService.DecreaseBalanceAsync(walletId, amount, ct);
+
+            var transaction = Transaction.CreateDecreaseWalletBalanceTransaction(walletId, amount, description);
+
+            _dbContext.Transactions.Add(transaction);
+            await _dbContext.SaveChangesAsync(ct);
+
+            await dbTransaction.CommitAsync(ct);
+        }
+        catch (Exception)
+        {
+            await dbTransaction.RollbackAsync(ct);
+        }
+    }
 }

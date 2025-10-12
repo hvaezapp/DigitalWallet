@@ -35,4 +35,19 @@ public class Transaction
         };
     }
 
+
+    public static Transaction CreateDecreaseWalletBalanceTransaction(WalletId walletId, decimal amount, string description)
+    {
+        return new Transaction
+        {
+            Id = TransactionId.CreateUniqueId(),
+            WalletId = walletId,
+            Amount = amount,
+            Kind = TransactionKind.Decremental,
+            Type = TransactionType.User,
+            Description = description,
+            CreatedOnUtc = DateTime.UtcNow,
+        };
+    }
+
 }

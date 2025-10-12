@@ -42,6 +42,12 @@ public class Wallet
         Balance += amount;
     }
 
+    internal void DecreaseBalance(decimal amount)
+    {
+        Balance -= amount;
+    }
+
+
     internal void UpdateTitle(string title)
     {
         Title = title;
