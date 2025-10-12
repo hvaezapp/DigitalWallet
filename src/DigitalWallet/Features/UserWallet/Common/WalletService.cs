@@ -46,6 +46,15 @@ public class WalletService(CurrencyService currencyService, WalletDbContext dbCo
     }
 
 
+    internal async Task SuspendAsync(WalletId walletId, CancellationToken cancellationToken)
+    {
+        var wallet = await GetWalletAsync(walletId, cancellationToken);
+
+        wallet.Suspend();
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+
     private async Task<Wallet> GetWalletAsync(WalletId walletId, CancellationToken cancellationToken)
     {
         var wallet = await _dbContext.Wallets

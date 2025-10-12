@@ -42,6 +42,11 @@ public class Wallet
         Status = WalletStatus.Active;
     }
 
+    internal void Suspend()
+    {
+        Status = WalletStatus.Suspend;
+    }
+
     internal void UpdateTitle(string title)
     {
         Title = title;
