@@ -28,5 +28,28 @@ public class WalletService(CurrencyService currencyService, WalletDbContext dbCo
 
         return wallet.Id;
     }
-    
+
+    internal async Task ChangeTitleAsync(WalletId walletId, string title, CancellationToken cancellationToken)
+    {
+        var wallet = await GetWalletAsync(walletId, cancellationToken);
+
+        wallet.UpdateTitle(title);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+
+    private async Task<Wallet> GetWalletAsync(WalletId walletId, CancellationToken cancellationToken)
+    {
+        var wallet = await _dbContext.Wallets
+                                     .FirstOrDefaultAsync(x => x.Id == walletId, 
+                                      cancellationToken);
+
+        if (wallet is null)
+        {
+            WalletNotFoundException.Throw(walletId);
+        }
+
+        return wallet;
+    }
+
 }

@@ -37,6 +37,11 @@ public class Wallet
         };
     }
 
+    internal void UpdateTitle(string title)
+    {
+        Title = title;
+    }
+
     private Wallet()
     {
 
