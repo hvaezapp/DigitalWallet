@@ -25,3 +25,5 @@ It is developed using **ASP.NET Core 9**, with **SQL Server** as the database. T
 - **DecreaseWalletBalance**
 - **WalletFunds** 
 - **WalletTransactions**
+
+![Endpoints](wallet-endpoints.png)
