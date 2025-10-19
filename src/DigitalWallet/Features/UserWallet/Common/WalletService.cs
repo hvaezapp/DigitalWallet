@@ -33,7 +33,7 @@ public class WalletService(CurrencyService currencyService, WalletDbContext dbCo
     {
         var wallet = await GetWalletAsync(walletId, ct);
 
-        if (!await IsWalletAvailableAsync(walletId , ct))
+        if (!await IsWalletAvailableAsync(walletId, ct))
             WalletUnavailableException.Throw(walletId);
 
         wallet.UpdateTitle(title);
