@@ -50,4 +50,33 @@ public class Transaction
         };
     }
 
+
+    public static Transaction CreateSourceFundsTransaction(WalletId sourceWalletId, decimal amount, string description, DateTime dateTime)
+    {
+        return new Transaction
+        {
+            Id = TransactionId.CreateUniqueId(),
+            WalletId = sourceWalletId,
+            Amount = amount,
+            Kind = TransactionKind.Decremental,
+            Type = TransactionType.Funds,
+            Description = description,
+            CreatedOnUtc = dateTime,
+        };
+    }
+
+    public static Transaction CreateDestinationFundsTransaction(WalletId destinationWalletId, decimal amount, string description, DateTime dateTime)
+    {
+        return new Transaction
+        {
+            Id = TransactionId.CreateUniqueId(),
+            WalletId = destinationWalletId,
+            Amount = amount,
+            Kind = TransactionKind.Incremental,
+            Type = TransactionType.Funds,
+            Description = description,
+            CreatedOnUtc = dateTime,
+        };
+    }
+
 }

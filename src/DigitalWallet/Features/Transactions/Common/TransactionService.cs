@@ -9,7 +9,6 @@ public class TransactionService(WalletService walletService , WalletDbContext db
     private readonly WalletService _walletService = walletService;
     private readonly WalletDbContext _dbContext = dbContext;
 
-
     internal async Task IncreaseWalletBalanceAsync(WalletId walletId, decimal amount, string description, CancellationToken ct)
     {
         if (!await _walletService.IsWalletAvailableAsync(walletId, ct))
@@ -37,8 +36,6 @@ public class TransactionService(WalletService walletService , WalletDbContext db
             await dbTransaction.RollbackAsync(ct);
         }
     }
-
-
     internal async Task DecreaseWalletBalanceAsync(WalletId walletId, decimal amount, string description, CancellationToken ct)
     {
         if (!await _walletService.IsWalletAvailableAsync(walletId, ct))
@@ -57,6 +54,51 @@ public class TransactionService(WalletService walletService , WalletDbContext db
             var transaction = Transaction.CreateDecreaseWalletBalanceTransaction(walletId, amount, description);
 
             _dbContext.Transactions.Add(transaction);
+            await _dbContext.SaveChangesAsync(ct);
+
+            await dbTransaction.CommitAsync(ct);
+        }
+        catch (Exception)
+        {
+            await dbTransaction.RollbackAsync(ct);
+        }
+    }
+
+    internal async Task WalletFundsAsync(WalletId sourceWalletId, WalletId destinationWalletId, decimal amount, string description, CancellationToken ct)
+    {
+        if (!await _walletService.IsWalletAvailableAsync(sourceWalletId, ct))
+            WalletUnavailableException.Throw(sourceWalletId);
+
+        if (!await _walletService.IsWalletAvailableAsync(destinationWalletId, ct))
+            WalletUnavailableException.Throw(destinationWalletId);
+
+        InvalidTransactionAmountException.Throw(amount);
+
+        if (!await _walletService.IsUserOwnedAsync([sourceWalletId, destinationWalletId], ct))
+            WalletOwnershipException.Throw();
+
+        var dbTransaction = await _dbContext.Database.BeginTransactionAsync(ct);
+
+        try
+        {
+            var destinationAmount = await _walletService.WalletFundsAsync(sourceWalletId, destinationWalletId, amount, ct);
+
+            var dateTime = DateTime.UtcNow;
+
+            var transactionIncrement = Transaction.CreateDestinationFundsTransaction(
+                destinationWalletId,
+                destinationAmount,
+                description,
+                dateTime);
+
+            var transactionDecrement = Transaction.CreateSourceFundsTransaction(
+                sourceWalletId,
+                amount,
+                description,
+                dateTime);
+
+            _dbContext.Transactions.AddRange([transactionIncrement, transactionDecrement]);
+
             await _dbContext.SaveChangesAsync(ct);
 
             await dbTransaction.CommitAsync(ct);

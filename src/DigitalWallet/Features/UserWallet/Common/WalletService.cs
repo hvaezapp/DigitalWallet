@@ -104,4 +104,27 @@ public class WalletService(CurrencyService currencyService, WalletDbContext dbCo
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    internal async Task<bool> IsUserOwnedAsync(List<WalletId> WalletIds, CancellationToken ct)
+    {
+        return (await _dbContext.Wallets.Where(x => WalletIds.Contains(x.Id))
+                                            .ToListAsync(ct))
+                                            .DistinctBy(x => x.UserId)
+                                            .Count() == 1;
+    }
+
+    internal async Task<decimal> WalletFundsAsync(WalletId sourceWalletId, WalletId destinationWalletId, decimal amount, CancellationToken cancellationToken)
+    {
+        var walletSource = await GetWalletAsync(sourceWalletId, cancellationToken);
+        var walletDestination = await GetWalletAsync(destinationWalletId, cancellationToken);
+
+        walletSource.DecreaseBalance(amount);
+
+        var destinationAmount = walletSource.Currency.Ratio / walletDestination.Currency.Ratio * amount;
+
+        walletDestination.IncreaseBalance(destinationAmount);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return destinationAmount;
+    }
+
 }
