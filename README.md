@@ -1,4 +1,4 @@
-# DigitalWallet Service
+#  User Wallet Service
 
 The **User Wallet Service** is a core platform component, built on **Vertical Slice Architecture (VSA)**, enabling secure and efficient fund management.  
 
